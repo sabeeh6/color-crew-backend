@@ -7,7 +7,7 @@ import { setCookies } from "../utils/cookie.js"
 
 export const signUpUser = async(req,res) => {
     try {
-        const {name , email , password , role} = req.body
+        const {name , email , password , role , experince} = req.body
         const userExist = await userModel.findOne({email})
         if (userExist) {
             return res.status(400).json({success:false , message:"Email already exist"})
@@ -18,7 +18,8 @@ export const signUpUser = async(req,res) => {
             name,
             email,
             password:hash,
-            role
+            role,
+            experince
         })
         await newUser.save()
 
