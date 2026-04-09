@@ -51,7 +51,7 @@ export const signInUser = async(req,res)=>{
         if (!pass || pass === false) {
             return res.status(404).json({success:false , message:"Invalid credentials"})
         }
-        console.log(userExist._id , userExist.role , userExist.email);
+        // console.log(userExist._id , userExist.role , userExist.email);
         
         const token=accessToken(userExist)
         console.log("Token" , token);
