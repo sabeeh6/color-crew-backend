@@ -13,8 +13,8 @@ export const sketchRoutes = Router();
 // Retrieve multiple sketches (paginated without full JSON)
 sketchRoutes.get("/", verifyUser, getUserSketches);
 
-// Retrieve single sketch with full JSON
-sketchRoutes.get("/:id", verifyUser, getSketchById);
+// Retrieve single sketch with full JSON (Publicly accessible for collaboration links)
+sketchRoutes.get("/:id", getSketchById);
 
 // Create or update full sketch
 sketchRoutes.post("/", verifyUser, saveSketch);

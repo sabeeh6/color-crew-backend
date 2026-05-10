@@ -21,6 +21,19 @@ export const socketHandler = (io) => {
       socket.to(data.roomId).emit("on-canvas-update", data.fabricJSON);
     });
 
+    socket.on("cursor-move", (data) => {
+      // data: { roomId, x, y, username, userId }
+      socket.to(data.roomId).emit("on-cursor-move", data);
+    });
+
+    socket.on("disconnecting", () => {
+      for (const room of socket.rooms) {
+        if (room !== socket.id) {
+          socket.to(room).emit("user-disconnected", socket.id);
+        }
+      }
+    });
+
     socket.on("disconnect", () => {
       console.log("User disconnected:", socket.id);
     });

@@ -85,9 +85,9 @@ export const getUserSketches = async (req, res) => {
 export const getSketchById = async (req, res) => {
     try {
         const { id } = req.params;
-        const userId = req.user.userId;
 
-        const sketch = await sketchModel.findOne({ _id: id, user: userId });
+        // Allow anyone with the link (ID) to access it
+        const sketch = await sketchModel.findById(id);
 
         if (!sketch) {
             return res.status(404).json({ message: "Sketch not found" });
