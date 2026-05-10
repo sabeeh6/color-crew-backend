@@ -3,7 +3,7 @@ import dotenv from "dotenv"
 dotenv.config()
 
 if(!process.env.JWT_SECRET_123){
-    throw new error("Key is missing")
+    throw new Error("Key is missing")
 }
 console.log("key" , process.env.JWT_SECRET_123);
 
