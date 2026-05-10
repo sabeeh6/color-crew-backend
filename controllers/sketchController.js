@@ -86,6 +86,12 @@ export const getSketchById = async (req, res) => {
     try {
         const { id } = req.params;
 
+        // CRITICAL FIX: Check if the ID is a valid MongoDB ObjectId
+        // This prevents 500 errors (CastError) if the ID is truncated (e.g. 23 chars instead of 24)
+        if (id.length !== 24 && !id.match(/^[0-9a-fA-F]{24}$/)) {
+            return res.status(400).json({ message: "Invalid Sketch ID format. Ensure the link is copied correctly." });
+        }
+
         // Allow anyone with the link (ID) to access it
         const sketch = await sketchModel.findById(id);
 

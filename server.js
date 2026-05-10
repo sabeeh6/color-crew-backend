@@ -22,11 +22,10 @@ const io = new Server(server, {
 });
 socketHandler(io);
 
-if (process.env.NODE_ENV !== 'production') {
-  const PORT = process.env.PORT || 5002;
-  server.listen(PORT, () => {
-    logger.info(`Server is running on Port ${PORT} 🛸`);
-  });
-}
+const PORT = process.env.PORT || 5002;
+server.listen(PORT, () => {
+  logger.info(`Server is running on Port ${PORT} 🛸`);
+  console.log(`Server is running on Port ${PORT} 🛸`);
+});
 
 export default app;
