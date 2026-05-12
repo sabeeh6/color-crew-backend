@@ -17,6 +17,11 @@ app.use(express.urlencoded({ limit: '50mb', extended: true }))
 Mongo_Db_Connection()
 app.use('/api' , routes)
 
+// Health check route for testing Railway deployment
+app.get('/', (req, res) => {
+  res.send('Server is healthy and running! 🚀');
+});
+
 const io = new Server(server, {
   cors: { origin: "*", methods: ["GET", "POST"] }
 });

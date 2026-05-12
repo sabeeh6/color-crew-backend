@@ -1,3 +1,5 @@
+import { messageModel } from "../model/message.js";
+
 export const socketHandler = (io) => {
   io.on("connection", (socket) => {
     console.log("User connected:", socket.id);
@@ -24,6 +26,25 @@ export const socketHandler = (io) => {
     socket.on("cursor-move", (data) => {
       // data: { roomId, x, y, username, userId }
       socket.to(data.roomId).emit("on-cursor-move", data);
+    });
+
+    socket.on("send-chat-message", async (data) => {
+      // data: { roomId, sender, content, timestamp }
+      try {
+        // 1. Broadcast to other members in the room
+        socket.to(data.roomId).emit("on-chat-message", data);
+
+        // 2. Persist to Database
+        await messageModel.create({
+          sketch: data.roomId,
+          sender: data.sender,
+          content: data.content,
+          timestamp: data.timestamp
+        });
+
+      } catch (error) {
+        console.error("Error handling chat message socket event:", error);
+      }
     });
 
     socket.on("disconnecting", () => {
