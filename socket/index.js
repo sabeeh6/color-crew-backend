@@ -47,6 +47,11 @@ export const socketHandler = (io) => {
       }
     });
 
+    socket.on("send-reaction", (data) => {
+      // Broadcast ephemeral reactions and comments to other clients in the room
+      socket.to(data.roomId).emit("on-reaction", data);
+    });
+
     socket.on("disconnecting", () => {
       for (const room of socket.rooms) {
         if (room !== socket.id) {
